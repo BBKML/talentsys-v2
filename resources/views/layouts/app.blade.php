@@ -83,9 +83,15 @@
 
         {{-- Logo & établissement --}}
         <div class="flex items-center gap-3 px-5 py-5 border-b border-white/10">
-            @php $etab = session('etablissement'); @endphp
-            @if(!empty($etab['logo']))
-                <img src="{{ $etab['logo'] }}" class="w-10 h-10 rounded-lg object-cover" alt="logo">
+            @php 
+                $etab = session('etablissement'); 
+                $logo = !empty($etab['logo']) ? $etab['logo'] : null;
+                if ($logo && !str_starts_with($logo, '/storage') && !str_starts_with($logo, 'http')) {
+                    $logo = \Illuminate\Support\Facades\Storage::url($logo);
+                }
+            @endphp
+            @if($logo)
+                <img src="{{ $logo }}" class="w-10 h-10 rounded-lg object-cover" alt="logo">
             @else
                 <div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
                     <i class="ri-graduation-cap-fill text-white text-xl"></i>

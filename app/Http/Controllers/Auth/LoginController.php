@@ -47,7 +47,11 @@ class LoginController extends Controller
             if ($etablissementId) {
                 $etab = Etablissement::find($etablissementId);
                 if ($etab) {
-                    session(['etablissement_id' => $etab->id, 'etablissement' => $etab->toArray()]);
+                    $etabData = $etab->toArray();
+                    if (!empty($etabData['logo'])) {
+                        $etabData['logo'] = \Illuminate\Support\Facades\Storage::url($etabData['logo']);
+                    }
+                    session(['etablissement_id' => $etab->id, 'etablissement' => $etabData]);
                     return redirect()->route('dashboard');
                 }
             }

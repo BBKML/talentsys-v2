@@ -55,23 +55,23 @@
         <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-2.5">
             @php
             $portail = [
-                ['icon' => 'ri-layout-grid-fill',    'label' => 'Filières',         'bg' => '#EEF2FF', 'color' => '#4F46E5'],
-                ['icon' => 'ri-table-2',             'label' => 'Classes',          'bg' => '#FFF1F2', 'color' => '#BE123C'],
-                ['icon' => 'ri-book-2-fill',         'label' => 'Matières',         'bg' => '#FFF7ED', 'color' => '#EA580C'],
-                ['icon' => 'ri-checkbox-circle-fill','label' => 'Inscriptions',     'bg' => '#F0FDF4', 'color' => '#16A34A'],
-                ['icon' => 'ri-team-fill',           'label' => 'Enseignants',      'bg' => '#EFF6FF', 'color' => '#2563EB'],
-                ['icon' => 'ri-briefcase-4-fill',    'label' => 'Affectations',     'bg' => '#F0F9FF', 'color' => '#0284C7'],
-                ['icon' => 'ri-time-fill',           'label' => 'Pointage Ens.',    'bg' => '#F0FDF4', 'color' => '#15803D'],
-                ['icon' => 'ri-calendar-check-fill', 'label' => 'Emploi du Temps',  'bg' => '#FAF5FF', 'color' => '#7C3AED'],
-                ['icon' => 'ri-edit-box-fill',       'label' => 'Notes',            'bg' => '#FFFBEB', 'color' => '#D97706'],
-                ['icon' => 'ri-award-fill',          'label' => 'Bulletins',        'bg' => '#FFF7ED', 'color' => '#C2410C'],
-                ['icon' => 'ri-bank-card-fill',      'label' => 'Paiements',        'bg' => '#F0FDF4', 'color' => '#059669'],
-                ['icon' => 'ri-pie-chart-2-fill',    'label' => 'Trésorerie',       'bg' => '#F5F3FF', 'color' => '#7C3AED'],
-                ['icon' => 'ri-store-3-fill',        'label' => 'Gestion de Stock', 'bg' => '#F8FAFC', 'color' => '#475569'],
+                ['icon' => 'ri-layout-grid-fill',    'label' => 'Filières',         'bg' => '#EEF2FF', 'color' => '#4F46E5', 'route' => route('filieres.index')],
+                ['icon' => 'ri-table-2',             'label' => 'Classes',          'bg' => '#FFF1F2', 'color' => '#BE123C', 'route' => route('classes.index')],
+                ['icon' => 'ri-book-2-fill',         'label' => 'Matières',         'bg' => '#FFF7ED', 'color' => '#EA580C', 'route' => route('matieres.index')],
+                ['icon' => 'ri-checkbox-circle-fill','label' => 'Inscriptions',     'bg' => '#F0FDF4', 'color' => '#16A34A', 'route' => route('etudiants.inscriptions.index')],
+                ['icon' => 'ri-team-fill',           'label' => 'Enseignants',      'bg' => '#EFF6FF', 'color' => '#2563EB', 'route' => route('enseignants.index')],
+                ['icon' => 'ri-briefcase-4-fill',    'label' => 'Affectations',     'bg' => '#F0F9FF', 'color' => '#0284C7', 'route' => route('affectations.index')],
+                ['icon' => 'ri-time-fill',           'label' => 'Pointage Ens.',    'bg' => '#F0FDF4', 'color' => '#15803D', 'route' => route('volume.index')],
+                ['icon' => 'ri-calendar-check-fill', 'label' => 'Emploi du Temps',  'bg' => '#FAF5FF', 'color' => '#7C3AED', 'route' => route('emploi.index')],
+                ['icon' => 'ri-edit-box-fill',       'label' => 'Notes',            'bg' => '#FFFBEB', 'color' => '#D97706', 'route' => route('notes.index')],
+                ['icon' => 'ri-award-fill',          'label' => 'Bulletins',        'bg' => '#FFF7ED', 'color' => '#C2410C', 'route' => route('moyennes.index')],
+                ['icon' => 'ri-bank-card-fill',      'label' => 'Paiements',        'bg' => '#F0FDF4', 'color' => '#059669', 'route' => route('finance.paiements')],
+                ['icon' => 'ri-pie-chart-2-fill',    'label' => 'Trésorerie',       'bg' => '#F5F3FF', 'color' => '#7C3AED', 'route' => route('tresorerie.operations')],
+                ['icon' => 'ri-store-3-fill',        'label' => 'Gestion de Stock', 'bg' => '#F8FAFC', 'color' => '#475569', 'route' => route('stocks.index')],
             ];
             @endphp
             @foreach($portail as $item)
-            <a href="#" class="portal-card">
+            <a href="{{ $item['route'] }}" class="portal-card">
                 <div class="icon-wrap" style="background:{{ $item['bg'] }}">
                     <i class="{{ $item['icon'] }}" style="color:{{ $item['color'] }}"></i>
                 </div>
@@ -505,10 +505,10 @@
         }
     });
 
-    // Donut chart — Répartition Filières
+    // Don't chart — Répartition Filières
     const filieresLabels = @json($chartFilieres->pluck('libelle'));
     const filieresData   = @json($chartFilieres->pluck('total')->map(fn($v) => (int)$v));
-    const palette = ['#6366f1','#8b5cf6','#a78bfa','#c084fc','#f472b6','#34d399','#fb923c','#60a5fa','#facc15','#4ade80'];
+    const palette = [primary, '#8b5cf6', '#a78bfa', '#c084fc', '#f472b6', '#34d399', '#fb923c', '#60a5fa', '#facc15', '#4ade80'];
 
     new Chart(document.getElementById('chartFilieres'), {
         type: 'doughnut',
